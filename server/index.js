@@ -1,9 +1,12 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
-const client = require('./db/connection');
+const jwt = require('jsonwebtoken');
+const { dbClient } = require('./db/connection');
+const verifyJWT = require('./utils/verifyJWT');
 
 const PORT = process.env.PORT || 5000;
 
@@ -13,6 +16,21 @@ app.use(helmet());
 
 app.get('/data', function(req, res) {
     res.send('Hello World');
+});
+
+app.get('isUserAuth', verifyJWT, (req, res) => {
+    res.send('You are authenticated');
+});
+
+app.post('/login', (req, res) => {
+    // prvo proveri da li je ulogovan
+
+    const id = 1; // rows[0].id
+    const token = jwt.sign({ id }, process.env.JWT_SECRET, {
+        expiresIn: 600
+    });
+
+    res.json({ auth: true, token, result: rows[0] });
 });
 
 app.listen(PORT);
