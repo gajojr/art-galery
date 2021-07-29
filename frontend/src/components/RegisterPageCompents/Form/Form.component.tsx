@@ -3,12 +3,19 @@ import { useState } from 'react';
 import axios from 'axios';
 
 import { FormElement, FormCaption, StyledButton, UploadButton } from './Form.style';
-import { Input, Upload, message } from 'antd';
+import { Input, Upload, message, Radio } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 
 // import { UserSchema } from './UserSchema';
 
 const Form = () => {
+    const [appRole, setAppRole] = useState('viewer/critic');
+
+    const onChange = (e: any) => {
+        console.log('radio checked', e.target.value);
+        setAppRole(e.target.value);
+    };
+
     const [files, setFiles] = useState<File[]>([]);
 
     const props = {
@@ -49,6 +56,8 @@ const Form = () => {
             message.error('Passwords don\'t match!');
             return;
         }
+
+        formData.append('appRole', appRole);
 
         axios.post('http://localhost:5000/register', formData)
             .then(res => {
@@ -151,6 +160,13 @@ const Form = () => {
             >
                 <Input.Password />
             </FormElement.Item>
+
+            <span style={{ marginTop: 5 }}>Select the role you want to have in this app:</span>
+
+            <Radio.Group onChange={onChange} value={appRole} style={{ marginTop: 8, marginBottom: 8 }}>
+                <Radio value='artist/publisher'>artist/publisher</Radio>
+                <Radio value='viewer/critic'>viewer/critic</Radio>
+            </Radio.Group>
 
             <FormElement.Item
                 label="Email"

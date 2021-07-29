@@ -17,6 +17,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use(helmet());
 
+// routes
 app.use('/register', upload.single('avatar'), registerPage);
 
 app.get('isUserAuth', verifyJWT, (req, res) => {

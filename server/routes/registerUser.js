@@ -12,12 +12,9 @@ router.post('/', async(req, res) => {
         const filePath = req.file.path;
 
         console.log(body);
-        console.log(filePath);
 
         // hash the password for security
         const hashedPassword = await bcrypt.hash(body.password, 10);
-
-        console.log(hashedPassword);
 
         const usernameQuery = await dbClient.query(
             `
@@ -47,8 +44,8 @@ router.post('/', async(req, res) => {
 
         await dbClient.query(
             `
-                INSERT INTO Users(name, lastname, password, username, date_of_making, email, role, document_location)
-                VALUES ('${body.firstName}', '${body.lastName}', '${hashedPassword}', '${body.username}', CURRENT_DATE, '${body.email}', 'user', '${filePath}');
+                INSERT INTO Users(name, lastname, password, username, date_of_making, app_role, email, administration_role, document_location)
+                VALUES ('${body.firstName}', '${body.lastName}', '${hashedPassword}', '${body.username}', CURRENT_DATE, '${body.appRole}', '${body.email}', 'user', '${filePath}');
             `
         );
 
