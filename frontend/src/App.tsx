@@ -1,10 +1,26 @@
+import { lazy, Suspense } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from 'react-router-dom';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
+const HomePage = lazy(() => import('./pages/HomePage/HomePage.page'));
 
-    </div>
+function App() {
+  const fallbackComponent = () => <div>Loading...</div>;
+
+  return (
+    <Router>
+      <Switch>
+        <Route path="/" exact>
+          <Suspense fallback={fallbackComponent}>
+            <HomePage />
+          </Suspense>
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
