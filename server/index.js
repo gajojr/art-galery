@@ -1,9 +1,17 @@
 const express = require('express');
 const app = express();
+const path = require('path');
+const cors = require('cors');
+const helmet = require('helmet');
+const client = require('./db/connection');
 
 const PORT = process.env.PORT || 5000;
 
-app.get('/', function(req, res) {
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
+app.use(helmet());
+
+app.get('/data', function(req, res) {
     res.send('Hello World');
 });
 
