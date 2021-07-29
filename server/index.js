@@ -5,18 +5,19 @@ const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const jwt = require('jsonwebtoken');
-const { dbClient } = require('./db/connection');
+const multer = require('multer')
 const verifyJWT = require('./utils/verifyJWT');
 
 const PORT = process.env.PORT || 5000;
+const upload = multer({ dest: 'uploads/profile_pictures' });
+
+const registerPage = require('./routes/registerUser');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use(helmet());
 
-app.get('/data', function(req, res) {
-    res.send('Hello World');
-});
+app.use('/register', upload.single('avatar'), registerPage);
 
 app.get('isUserAuth', verifyJWT, (req, res) => {
     res.send('You are authenticated');

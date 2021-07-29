@@ -153,84 +153,6 @@ const Form = () => {
             </FormElement.Item>
 
             <FormElement.Item
-                label="Address"
-                name="address"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please enter your address!',
-                    },
-                ]}
-            >
-                <Input />
-            </FormElement.Item>
-
-            <FormElement.Item
-                label="City"
-                name="city"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please enter your city!',
-                    },
-                ]}
-            >
-                <Input />
-            </FormElement.Item>
-
-            <FormElement.Item
-                label="Postal code"
-                name="postalCode"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please enter your postal code!',
-                    },
-                ]}
-            >
-                <Input />
-            </FormElement.Item>
-
-            <FormElement.Item
-                label="Company name"
-                name="companyName"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please enter your company name!',
-                    },
-                ]}
-            >
-                <Input />
-            </FormElement.Item>
-
-            <FormElement.Item
-                label="PIB"
-                name="pib"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please enter your pib!',
-                    },
-                ]}
-            >
-                <Input />
-            </FormElement.Item>
-
-            <FormElement.Item
-                label="Giro account"
-                name="giroAccount"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please enter your giro account!',
-                    },
-                ]}
-            >
-                <Input />
-            </FormElement.Item>
-
-            <FormElement.Item
                 label="Email"
                 name="email"
                 rules={[
@@ -246,14 +168,17 @@ const Form = () => {
             <FormElement.Item
                 name="avatar"
                 valuePropName="file"
-                getValueFromEvent={(options: any) => options.file.originFileObj}
+                getValueFromEvent={(options: any) => {
+                    console.log(options.file.originFileObj);
+                    return options.file.originFileObj
+                }}
             >
                 <Upload
-                    accept=".pdf, .jpg, .png"
+                    accept=".jpg, .png"
                     maxCount={1}
                     {...props}
                 >
-                    Upload .pdf, .jpg or .png file
+                    Upload .jpg or .png file
                     <UploadButton disabled={files.length ? true : false} icon={<UploadOutlined />}>Click to Upload</UploadButton>
                 </Upload>
             </FormElement.Item>
