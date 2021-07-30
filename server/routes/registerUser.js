@@ -26,7 +26,7 @@ router.post('/', async(req, res) => {
         if (usernameQuery && usernameQuery.rows && usernameQuery.rows.length) {
             console.log('usao u username check');
             removeProfileImage(filePath);
-            res.json({ error: 'user with this username already exists' });
+            return res.json({ error: 'user with this username already exists' });
         }
 
         const emailQuery = await dbClient.query(
@@ -39,7 +39,7 @@ router.post('/', async(req, res) => {
         if (emailQuery && emailQuery.rows && emailQuery.rows.length) {
             console.log('usao u email check');
             removeProfileImage(filePath);
-            res.json({ error: 'user with this email already exists!' });
+            return res.json({ error: 'user with this email already exists!' });
         }
 
         await dbClient.query(
