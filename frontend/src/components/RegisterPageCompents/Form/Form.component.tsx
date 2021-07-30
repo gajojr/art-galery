@@ -65,6 +65,9 @@ const Form = () => {
                 if (!res.data.error) {
                     message.success('registered successfully');
                     sessionStorage.setItem('username', res.data.username);
+                    sessionStorage.setItem('role', res.data.role);
+                    sessionStorage.setItem('auth', res.data.auth);
+                    sessionStorage.setItem('token', res.data.token);
                     window.location.href = '/profile-page';
                 } else {
                     console.log(res.data.error)

@@ -3,7 +3,7 @@ import { Input, message } from 'antd';
 import axios from 'axios';
 
 const Form = () => {
-    const onFinish = async (values: any) => {
+    const onFinish = async (values: { username: string; password: string; }) => {
         console.log('values', values);
 
         const res = await axios.post('/log-in', values);
