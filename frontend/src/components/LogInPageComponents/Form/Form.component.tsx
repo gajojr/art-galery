@@ -3,29 +3,39 @@ import { Input, message } from 'antd';
 import axios from 'axios';
 
 const Form = () => {
-    const onFinish = (values: any) => {
+    const onFinish = async (values: any) => {
         console.log('values', values);
 
-        axios.post('http://localhost:5000/log-in', values)
-            .then(res => {
-                console.log(res)
-                if (!res.data.error) {
-                    message.success('logged in successfully');
-                    sessionStorage.setItem('username', res.data.username);
-                    sessionStorage.setItem('role', res.data.role);
-                    if (res.data.role === 'admin') {
-                        return window.location.href = '/admin-page';
-                    }
-                    window.location.href = '/profile-page';
-                } else {
-                    console.log(res.data.error)
-                    message.error(res.data.error);
-                }
-            })
-            .catch(err => {
-                console.log(err)
-                message.error('logging in failed');
-            });
+        const res = await axios.post('/log-in', values);
+        console.log(res);
+        if (!res.data.error) {
+            sessionStorage.setItem('username', res.data.username);
+            sessionStorage.setItem('role', res.data.role);
+            sessionStorage.setItem('auth', res.data.auth);
+            sessionStorage.setItem('token', res.data.token);
+        } else {
+            console.log(res.data.error)
+            return message.error(res.data.error);
+        }
+
+        const authRes = await axios.get('/isUserAuth', {
+            headers: {
+                'x-access-token': sessionStorage.getItem('token')
+            }
+        });
+
+        console.log(authRes);
+
+        if (authRes.data === 'You are authenticated') {
+            message.success('Logged in successfully');
+
+            if (sessionStorage.getItem('role') === 'admin') {
+                return window.location.href = '/admin-page';
+            }
+            window.location.href = '/profile-page';
+        } else {
+            message.error('Login failed!');
+        }
     }
 
     return (

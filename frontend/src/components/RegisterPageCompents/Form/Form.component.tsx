@@ -59,7 +59,7 @@ const Form = () => {
 
         formData.append('appRole', appRole);
 
-        axios.post('http://localhost:5000/register', formData)
+        axios.post('/register', formData)
             .then(res => {
                 console.log(res)
                 if (!res.data.error) {
