@@ -23,9 +23,11 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(helmet());
 
-// routes
+// routes that generate jwt auth token
 app.use('/register', upload.single('avatar'), registerPage);
 app.use('/log-in', loginPage);
+
+// routes that need auth token
 app.use('/isUserAuth', verifyJWT, userAuth);
 
 app.listen(PORT);
