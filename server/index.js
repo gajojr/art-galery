@@ -13,7 +13,7 @@ const upload = multer({ dest: 'uploads/profile_pictures' });
 
 const registerPage = require('./routes/registerUser');
 const loginPage = require('./routes/loginUser');
-const userAuth = require('./routes/authUser');
+const getAvatar = require('./routes/getAvatar');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({
@@ -28,6 +28,6 @@ app.use('/register', upload.single('avatar'), registerPage);
 app.use('/log-in', loginPage);
 
 // routes that need auth token
-app.use('/isUserAuth', verifyJWT, userAuth);
+app.use('/get-avatar', verifyJWT, getAvatar);
 
 app.listen(PORT);

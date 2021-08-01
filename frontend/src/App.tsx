@@ -9,6 +9,7 @@ import './App.css';
 const HomePage = lazy(() => import('./pages/HomePage/HomePage.page'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage/RegisterPage.page'));
 const LogInPage = lazy(() => import('./pages/LogInPage/LogInPage.page'));
+const ProfilePage = lazy(() => import('./pages/ProfilePage/ProfilePage.page'));
 
 function App() {
   return (
@@ -27,6 +28,11 @@ function App() {
         <Route path="/log-in">
           <Suspense fallback={<div>Loading...</div>}>
             <LogInPage />
+          </Suspense>
+        </Route>
+        <Route path="/profile-page">
+          <Suspense fallback={<div>Loading...</div>}>
+            <ProfilePage />
           </Suspense>
         </Route>
       </Switch>

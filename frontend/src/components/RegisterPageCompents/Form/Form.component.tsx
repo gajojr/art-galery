@@ -39,7 +39,6 @@ const Form = () => {
 
     // change values type to UserSchema
     const onFinish = (values: any) => {
-        console.log('usao u onFinish');
         console.log('values', values);
 
         const formData = new FormData();
