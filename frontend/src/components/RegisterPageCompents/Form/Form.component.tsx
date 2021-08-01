@@ -67,7 +67,13 @@ const Form = () => {
                     sessionStorage.setItem('role', res.data.role);
                     sessionStorage.setItem('auth', res.data.auth);
                     sessionStorage.setItem('token', res.data.token);
-                    window.location.href = '/profile-page';
+                    sessionStorage.setItem('appRole', res.data.appRole);
+
+                    if (res.data.appRole === 'viewer/critic') {
+                        window.location.href = '/viewer-profile-page';
+                    } else {
+                        window.location.href = '/publisher-profile-page';
+                    }
                 } else {
                     console.log(res.data.error)
                     message.error(res.data.error);

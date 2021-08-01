@@ -24,7 +24,7 @@ router.post('/', async(req, res) => {
 
         const passwordAndRoleQuery = await dbClient.query(
             `
-                SELECT password, administration_role FROM Users
+                SELECT password, administration_role, app_role FROM Users
                 WHERE username = '${username}';
             `
         )
@@ -39,7 +39,7 @@ router.post('/', async(req, res) => {
                 expiresIn: 600
             });
 
-            res.json({ auth: true, token, username, role: passwordAndRoleQuery.rows[0].administration_role });
+            res.json({ auth: true, token, username, role: passwordAndRoleQuery.rows[0].administration_role, appRole: passwordAndRoleQuery.rows[0].app_role });
         } else {
             res.json({ error: 'username and password don\'t match!' });
         }

@@ -15,21 +15,21 @@ const Form = () => {
             sessionStorage.setItem('role', res.data.role);
             sessionStorage.setItem('auth', res.data.auth);
             sessionStorage.setItem('token', res.data.token);
+            sessionStorage.setItem('appRole', res.data.appRole);
 
             if (sessionStorage.getItem('role') === 'admin') {
                 return window.location.href = '/admin-page';
             }
-            window.location.href = '/profile-page';
+
+            if (res.data.appRole === 'viewer/critic') {
+                window.location.href = '/viewer-profile-page';
+            } else {
+                window.location.href = '/publisher-profile-page';
+            }
         } else {
             console.log(res.data.error)
             return message.error(res.data.error);
         }
-
-        // const authRes = await axios.get('/isUserAuth', {
-        //     headers: {
-        //         'x-access-token': sessionStorage.getItem('token')
-        //     }
-        // });
     }
 
     return (

@@ -9,7 +9,7 @@ import './App.css';
 const HomePage = lazy(() => import('./pages/HomePage/HomePage.page'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage/RegisterPage.page'));
 const LogInPage = lazy(() => import('./pages/LogInPage/LogInPage.page'));
-const ProfilePage = lazy(() => import('./pages/ProfilePage/ProfilePage.page'));
+const PublisherProfilePage = lazy(() => import('./pages/PublisherProfilePage/PublisherProfilePage.page'));
 
 function App() {
   return (
@@ -30,9 +30,9 @@ function App() {
             <LogInPage />
           </Suspense>
         </Route>
-        <Route path="/profile-page">
+        <Route path="/publisher-profile-page">
           <Suspense fallback={<div>Loading...</div>}>
-            <ProfilePage />
+            <PublisherProfilePage />
           </Suspense>
         </Route>
       </Switch>

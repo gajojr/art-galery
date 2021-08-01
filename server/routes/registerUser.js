@@ -61,7 +61,7 @@ router.post('/', async(req, res) => {
             expiresIn: 600
         });
 
-        res.json({ message: 'registered successfully', auth: true, token, username: body.username, role: body.administration_role });
+        res.json({ message: 'registered successfully', auth: true, token, username: body.username, role: body.administration_role, appRole: body.appRole });
     } catch (err) {
         console.log(err);
     }
