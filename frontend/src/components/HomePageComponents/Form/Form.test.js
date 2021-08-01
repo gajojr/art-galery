@@ -1,9 +1,8 @@
-import React from 'react';
 import Form from './Form.component';
 // we need router to wrap element, otherwise it won't work
 import { BrowserRouter } from 'react-router-dom';
 
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 test('header renders with correct text', () => {
@@ -13,18 +12,16 @@ test('header renders with correct text', () => {
     expect(headerEl.textContent).toBe('Art Gallery');
 });
 
-test('click on register button takes us to register page', () => {
+test('click on register link takes us to register page', () => {
     const component = render(<BrowserRouter><Form /></BrowserRouter>);
-    const registerBtn = component.getByTestId('link-to-register-page');
+    const registerPageLink = component.getByTestId('link-to-register-page');
 
-    fireEvent.click(registerBtn);
-    expect(screen.getByText('Register')).toBeInTheDocument();
+    expect(registerPageLink).toHaveAttribute('href', '/register');
 });
 
-test('click on login button takes us to login page', () => {
+test('click on login link takes us to login page', () => {
     const component = render(<BrowserRouter><Form /></BrowserRouter>);
-    const logInBtn = component.getByTestId('link-to-login-page');
+    const logInPageLink = component.getByTestId('link-to-login-page');
 
-    fireEvent.click(logInBtn);
-    expect(screen.getByText('Log In')).toBeInTheDocument();
+    expect(logInPageLink).toHaveAttribute('href', '/log-in');
 });

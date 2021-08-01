@@ -5,11 +5,11 @@ const Form = () => {
     return (
         <FormElement>
             <h2 data-testid='homepage-header'>Art Gallery</h2>
-            <StyledButton data-testid='link-to-register-page'>
-                <Link to='/register'>Register</Link>
+            <StyledButton>
+                <Link to='/register' data-testid='link-to-register-page'>Register</Link>
             </StyledButton>
-            <StyledButton data-testid='link-to-login-page'>
-                <Link to='/log-in'>Log In</Link>
+            <StyledButton>
+                <Link to='/log-in' data-testid='link-to-login-page'>Log In</Link>
             </StyledButton>
         </FormElement>
     )
