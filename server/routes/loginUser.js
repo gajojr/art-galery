@@ -36,7 +36,7 @@ router.post('/', async(req, res) => {
         if (comparePassword) {
             const id = usernameQuery.rows[0].id;
             const token = jwt.sign({ id }, process.env.JWT_SECRET, {
-                expiresIn: 600
+                expiresIn: 900
             });
 
             res.json({ auth: true, token, username, role: passwordAndRoleQuery.rows[0].administration_role, appRole: passwordAndRoleQuery.rows[0].app_role });

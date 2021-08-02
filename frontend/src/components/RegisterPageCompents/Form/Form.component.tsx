@@ -10,13 +10,12 @@ import { UploadOutlined } from '@ant-design/icons';
 
 const Form = () => {
     const [appRole, setAppRole] = useState('viewer/critic');
+    const [files, setFiles] = useState<File[]>([]);
 
     const onChange = (e: any) => {
         console.log('radio checked', e.target.value);
         setAppRole(e.target.value);
     };
-
-    const [files, setFiles] = useState<File[]>([]);
 
     const props = {
         beforeUpload: (file: File) => {

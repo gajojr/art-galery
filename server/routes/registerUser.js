@@ -58,7 +58,7 @@ router.post('/', async(req, res) => {
 
         const id = user.rows[0].id;
         const token = jwt.sign({ id }, process.env.JWT_SECRET, {
-            expiresIn: 600
+            expiresIn: 900
         });
 
         res.json({ message: 'registered successfully', auth: true, token, username: body.username, role: body.administration_role, appRole: body.appRole });
