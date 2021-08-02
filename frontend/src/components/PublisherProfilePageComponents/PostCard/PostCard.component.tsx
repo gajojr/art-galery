@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { PostInterface } from '../PostInterface';
 
 import { message } from 'antd';
-import { StyledCard, DeleteButton, UpdateButton } from './PostCard.style';
+import { StyledCard, DeleteButton } from './PostCard.style';
 
 const PostCard = ({ post }: { post: PostInterface }) => {
     const deleteInvoice = async (id: number) => {
@@ -28,12 +28,11 @@ const PostCard = ({ post }: { post: PostInterface }) => {
             extra={
                 <div>
                     <Link to={`/posts/${post.id}`}>View</Link>
-                    <UpdateButton onClick={() => window.location.href = `/update-post/${post.id}`}>Update</UpdateButton>
                     <DeleteButton type="primary" onClick={() => deleteInvoice(post.id)}>Delete</DeleteButton>
                 </div>
             }
         >
-            <p>Capiton: {post.description.substring(0, 150)}</p>
+            <p>Caption: {post.description.substring(0, 150)}</p>
             <Link to={`/posts/${post.id}`}><p style={{ color: '#000' }}>...</p></Link>
         </StyledCard>
     )

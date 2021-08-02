@@ -11,7 +11,7 @@ const RegisterPage = () => {
             } else if (sessionStorage.getItem('appRole') === 'viewer/critic') {
                 window.location.href = '/viewer-profile-page';
             } else if (sessionStorage.getItem('appRole') === 'artist/publisher') {
-                window.location.href = '/publisher-profile';
+                window.location.href = '/publisher-profile-page';
             }
         }
     }, []);

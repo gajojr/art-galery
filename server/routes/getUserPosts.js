@@ -22,4 +22,26 @@ router.get('/', async(req, res) => {
     }
 });
 
+router.get('/:id', async(req, res) => {
+    try {
+        console.log(req.query.id);
+
+        // const id = req.query.id;
+
+        // const documentLocation = await dbClient.query(
+        //     `
+        //         SELECT document_location 
+        //         FROM Posts
+        //         WHERE id = '${id}' 
+        //     `
+        // );
+
+        // const avatarURL = documentLocation.rows[0].document_location;
+
+        // res.sendFile(avatarURL, { root: path.join(__dirname, '..') });
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 module.exports = router;
