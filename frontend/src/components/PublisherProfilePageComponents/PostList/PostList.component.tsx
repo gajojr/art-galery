@@ -5,8 +5,8 @@ import { PostInterface } from '../PostInterface';
 import { CardsContainer, CardContainer } from './PostList.styles';
 import PostCard from '../PostCard/PostCard.component';
 
-const InvoicesList = () => {
-    const [posts, setInvoices] = useState<any>([]);
+const PostsList = () => {
+    const [posts, setPosts] = useState<PostInterface[]>([]);
 
     useEffect(() => {
         (async () => {
@@ -16,7 +16,7 @@ const InvoicesList = () => {
                 }
             });
             console.log(response);
-            setInvoices(response.data);
+            setPosts(response.data);
         })();
     }, []);
 
@@ -28,10 +28,10 @@ const InvoicesList = () => {
         <CardsContainer>
             <span>Your posts:</span>
             <CardContainer>
-                {posts.map((post: PostInterface) => <PostCard key={post.id} post={post} />)}
+                {posts.map((post: PostInterface, idx: number) => <PostCard key={post.id} post={{ ...post, idx }} />)}
             </CardContainer>
         </CardsContainer>
     )
 }
 
-export default InvoicesList;
+export default PostsList;

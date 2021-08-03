@@ -5,7 +5,7 @@ const router = express.Router()
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { dbClient } = require('../db/connection');
-const { removeProfileImage } = require('../utils/removeProfileImage');
+const { removeImage } = require('../utils/removeImage');
 
 router.post('/', async(req, res) => {
     try {
@@ -28,7 +28,7 @@ router.post('/', async(req, res) => {
         // check if user with this username already exists
         if (usernameQuery && usernameQuery.rows && usernameQuery.rows.length) {
             console.log('usao u username check');
-            removeProfileImage(filePath);
+            removeImage(filePath);
             return res.json({ error: 'user with this username already exists' });
         }
 
@@ -42,7 +42,7 @@ router.post('/', async(req, res) => {
         // check if user with this email already exists
         if (emailQuery && emailQuery.rows && emailQuery.rows.length) {
             console.log('usao u email check');
-            removeProfileImage(filePath);
+            removeImage(filePath);
             return res.json({ error: 'user with this email already exists!' });
         }
 

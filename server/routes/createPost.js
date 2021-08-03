@@ -5,6 +5,7 @@ const multer = require('multer');
 const upload = multer({ dest: 'uploads/gallery_images' });
 
 const { dbClient } = require('../db/connection');
+const { removeImage } = require('../utils/removeImage');
 
 router.post('/', upload.single('imageToPost'), async(req, res) => {
     try {
@@ -28,6 +29,9 @@ router.post('/', upload.single('imageToPost'), async(req, res) => {
         res.sendStatus(201);
     } catch (err) {
         console.log(err);
+
+        removeImage(req.file.path);
+        res.json({ message: 'error occured' });
     }
 });
 

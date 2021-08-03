@@ -10,9 +10,13 @@ import { StyledCard, DeleteButton } from './PostCard.style';
 const PostCard = ({ post }: { post: PostInterface }) => {
     const deleteInvoice = async (id: number) => {
         if (window.confirm('Do you want to delete this post?')) {
-            const response = await axios.delete(`http://localhost:5000/invoices/${id}`);
+            const response = await axios.delete(`/posts/${id}`, {
+                headers: {
+                    'x-access-token': sessionStorage.getItem('token')
+                }
+            });
             console.log(response);
-            if (response.status === 200) {
+            if (response.status === 201) {
                 message.success('Post deleted!');
                 window.location.reload();
             } else {
@@ -24,16 +28,14 @@ const PostCard = ({ post }: { post: PostInterface }) => {
     return (
         <StyledCard
             size="small"
-            title={post.id}
+            title={post.idx + 1}
             extra={
                 <div>
-                    <Link to={`/posts/${post.id}`}>View</Link>
                     <DeleteButton type="primary" onClick={() => deleteInvoice(post.id)}>Delete</DeleteButton>
                 </div>
             }
         >
             <p>Caption: {post.description.substring(0, 150)}</p>
-            <Link to={`/posts/${post.id}`}><p style={{ color: '#000' }}>...</p></Link>
         </StyledCard>
     )
 }
