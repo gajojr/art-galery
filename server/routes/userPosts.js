@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path');
 
 const { dbClient } = require('../db/connection');
 const verifyJWT = require('../utils/verifyJWT');
@@ -24,27 +25,27 @@ router.get('/', async(req, res) => {
     }
 });
 
-// router.get('/:id', async(req, res) => {
-//     try {
-//         console.log(req.query.id);
+router.get('/:id', async(req, res) => {
+    try {
+        console.log('usao');
+        const id = req.params.id;
 
-// const id = req.query.id;
+        const documentLocation = await dbClient.query(
+            `
+                SELECT document_location 
+                FROM Posts
+                WHERE id = '${id}' 
+            `
+        );
 
-// const documentLocation = await dbClient.query(
-//     `
-//         SELECT document_location 
-//         FROM Posts
-//         WHERE id = '${id}' 
-//     `
-// );
+        const avatarURL = documentLocation.rows[0].document_location;
 
-// const avatarURL = documentLocation.rows[0].document_location;
-
-// res.sendFile(avatarURL, { root: path.join(__dirname, '..') });
-//     } catch (err) {
-//         console.log(err);
-//     }
-// });
+        res.sendFile(avatarURL, { root: path.join(__dirname, '..') });
+    } catch (err) {
+        console.log(err);
+        res.json({ message: 'error occurred' });
+    }
+});
 
 router.delete('/:id', verifyJWT, async(req, res) => {
     try {
