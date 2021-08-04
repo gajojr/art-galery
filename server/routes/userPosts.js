@@ -10,7 +10,7 @@ router.get('/', async(req, res) => {
     try {
         const username = req.query.username;
 
-        const posts = await dbClient.query(
+        const postsQuery = await dbClient.query(
             `
                 SELECT posts.id AS id, posts.user_id AS user_id, posts.description as description, posts.date_of_making as date_of_making, posts.document_location as document_location FROM posts
                 JOIN users 
@@ -19,7 +19,20 @@ router.get('/', async(req, res) => {
             `
         );
 
-        res.send(posts.rows);
+        // wait for all the Promises, then collect the result
+        const posts = await Promise.all(postsQuery.rows.map(async post => {
+            const numOfLikes = await dbClient.query(
+                `
+                    SELECT COUNT(*) 
+                    FROM likes 
+                    WHERE id = '${post.id}'
+                `
+            );
+
+            return {...post, num_of_likes: numOfLikes.rows[0].count };
+        }));
+
+        res.send(posts);
     } catch (err) {
         console.log(err);
     }

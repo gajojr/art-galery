@@ -37,3 +37,13 @@ export const PostImage = styled(Image)
     width: 100%;
     height: 60%;
 `;
+
+export const PostInfo = styled.div `
+    display: flex;
+    justify-content: space-between;
+`;
+
+export const NumOfLikes = styled.p `
+    display: flex;
+    align-items: center;
+`;

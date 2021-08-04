@@ -5,4 +5,5 @@ export interface PostInterface {
     date_of_making: string;
     document_location: string;
     description: string;
+    num_of_likes: string;
 }
