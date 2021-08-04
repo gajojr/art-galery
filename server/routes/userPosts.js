@@ -27,7 +27,6 @@ router.get('/', async(req, res) => {
 
 router.get('/:id', async(req, res) => {
     try {
-        console.log('usao');
         const id = req.params.id;
 
         const documentLocation = await dbClient.query(

@@ -34,7 +34,7 @@ const PostCard = ({ post }: { post: PostInterface }) => {
         })()
     }, []);
 
-    const deleteInvoice = async (id: number) => {
+    const deletePost = async (id: number) => {
         if (window.confirm('Do you want to delete this post?')) {
             const response = await axios.delete(`/posts/${id}`, {
                 headers: {
@@ -57,7 +57,7 @@ const PostCard = ({ post }: { post: PostInterface }) => {
             title={post.idx + 1}
             extra={
                 <div>
-                    <DeleteButton type="primary" onClick={() => deleteInvoice(post.id)}>Delete</DeleteButton>
+                    <DeleteButton type="primary" onClick={() => deletePost(post.id)}>Delete</DeleteButton>
                 </div>
             }
         >
