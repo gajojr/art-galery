@@ -197,7 +197,6 @@ const Form = () => {
                 }}
             >
                 <Upload
-                    data-testid='avatar-upload'
                     accept=".jpg, .png"
                     maxCount={1}
                     {...props}

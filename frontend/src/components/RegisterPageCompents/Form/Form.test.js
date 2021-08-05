@@ -1,5 +1,5 @@
 import Form from './Form.component';
-import { Simulate } from 'react-dom/test-utils';
+// import { Simulate } from 'react-dom/test-utils';
 import { render, fireEvent } from '@testing-library/react';
 
 global.matchMedia = global.matchMedia || function () {
@@ -53,3 +53,16 @@ describe('Text inputs', () => {
     });
 });
 
+describe('File input', () => {
+    test('User can upload .jpg or .png file', () => {
+        //simulate file upload
+        (async () => {
+            const file = new File(['(⌐□_□)'], 'testImage.png', { type: 'image/png' });
+            const hiddenFileInput = document.querySelector('input[type="file"]');
+
+            await fireEvent.change(hiddenFileInput, { target: { files: [file] } });
+
+            expect(document.getElementById('avatar').files.length).toBe(1);
+        })();
+    });
+});
