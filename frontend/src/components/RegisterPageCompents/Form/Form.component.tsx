@@ -197,12 +197,13 @@ const Form = () => {
                 }}
             >
                 <Upload
+                    data-testid='avatar-upload'
                     accept=".jpg, .png"
                     maxCount={1}
                     {...props}
                 >
                     Upload .jpg or .png file
-                    <UploadButton disabled={files.length ? true : false} icon={<UploadOutlined />}>Click to Upload</UploadButton>
+                    <UploadButton data-testid='avatar-upload-button' disabled={files.length ? true : false} icon={<UploadOutlined />}>Click to Upload</UploadButton>
                 </Upload>
             </FormElement.Item>
 
