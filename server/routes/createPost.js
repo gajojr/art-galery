@@ -9,7 +9,7 @@ const { removeImage } = require('../utils/removeImage');
 
 router.post('/', upload.single('imageToPost'), async(req, res) => {
     try {
-        const { username, description } = req.body;
+        const { username, description, category } = req.body;
         const filePath = req.file.path;
 
         const userIdQuery = await dbClient.query(
@@ -21,8 +21,8 @@ router.post('/', upload.single('imageToPost'), async(req, res) => {
 
         await dbClient.query(
             `
-                INSERT INTO posts(user_id, description, date_of_making, document_location)
-                VALUES ('${userIdQuery.rows[0].id}', '${description}', CURRENT_DATE, '${filePath}');
+                INSERT INTO posts(user_id, description, category, date_of_making, document_location)
+                VALUES ('${userIdQuery.rows[0].id}', '${description}', '${category}', CURRENT_DATE, '${filePath}');
             `
         );
 

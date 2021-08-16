@@ -23,24 +23,33 @@ const ProfileData = () => {
                     params: {
                         username: sessionStorage.getItem('username')
                     },
-                    responseType: 'arraybuffer'
+                    // responseType: 'arraybuffer'
                 }
             )
             .then(response => {
-                console.log(response);
-                if (response.headers['content-type'] === 'application/json; charset=utf-8') {
-                    message.error('You are not authenticated');
-                    sessionStorage.clear();
-                    window.location.href = '/';
-                    return;
-                }
-                const base64 = btoa(
-                    new Uint8Array(response.data).reduce(
-                        (data, byte) => data + String.fromCharCode(byte),
-                        '',
-                    ),
-                );
-                setAvatarURL("data:;base64," + base64);
+                console.log(response.data);
+                import(`../../../logo192.png`).then(image => setAvatarURL(image.default));
+                // import(`../../../../../server/uploads/profile_pictures/165defdba8f43dad57a3185070c718a1`).then(image => setAvatarURL(image));
+                // setAvatarURL(`../../server/${response.data}`);
+                // import(`../../../../../server/${response.data}`).then(image => {
+                //     setAvatarURL(image);
+                // });
+                // import(`../../server/${response.data}`).then(image => {
+                //     setAvatarURL(image);
+                // });
+                // if (response.headers['content-type'] === 'application/json; charset=utf-8') {
+                //     message.error('You are not authenticated');
+                //     sessionStorage.clear();
+                //     window.location.href = '/';
+                //     return;
+                // }
+                // const base64 = btoa(
+                //     new Uint8Array(response.data).reduce(
+                //         (data, byte) => data + String.fromCharCode(byte),
+                //         '',
+                //     ),
+                // );
+                // setAvatarURL("data:;base64," + base64);
             })
             .catch(err => console.log(err));
     }, []);

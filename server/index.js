@@ -17,7 +17,6 @@ const getAvatar = require('./routes/getAvatar');
 const userPosts = require('./routes/userPosts');
 const createPost = require('./routes/createPost');
 
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({
     extended: true
 }));

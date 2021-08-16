@@ -2,8 +2,9 @@ import { useState } from 'react';
 import axios from 'axios';
 
 import { FormElement, FormCaption, StyledButton, UploadButton } from './UploadPostForm.style';
-import { Input, Upload, message } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { Input, Upload, message, Dropdown } from 'antd';
+import MenuComponent from './Menu.component';
+import { UploadOutlined, CaretDownOutlined } from '@ant-design/icons';
 
 const UploadPostForm = () => {
     const [files, setFiles] = useState<File[]>([]);
@@ -30,9 +31,11 @@ const UploadPostForm = () => {
     const onFinish = (values: any) => {
         console.log('values', values);
 
-        const formData = new FormData();
-        for (const name in values) {
-            formData.append(name, values[name]); // there should be values.imageToPost which is a File object
+        const category = (document.getElementById('post-category') as HTMLElement).innerText;
+
+        if (!category) {
+            message.error('Category is required!');
+            return;
         }
 
         if (!files.length) {
@@ -40,7 +43,13 @@ const UploadPostForm = () => {
             return;
         }
 
+        const formData = new FormData();
+        for (const name in values) {
+            formData.append(name, values[name]); // there should be values.imageToPost which is a File object
+        }
+
         formData.append('username', sessionStorage.getItem('username') as string);
+        formData.append('category', category);
 
         axios.post('/create-post', formData, {
             headers: {
@@ -100,6 +109,12 @@ const UploadPostForm = () => {
             >
                 <Input />
             </FormElement.Item>
+
+            <Dropdown overlay={MenuComponent()} trigger={['click']} arrow>
+                <StyledButton>Select Category <CaretDownOutlined /></StyledButton>
+            </Dropdown>
+
+            <p id='post-category'></p>
 
             <StyledButton htmlType="submit">Post</StyledButton>
         </FormElement>
