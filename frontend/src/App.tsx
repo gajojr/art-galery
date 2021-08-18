@@ -10,6 +10,7 @@ const HomePage = lazy(() => import('./pages/HomePage/HomePage.page'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage/RegisterPage.page'));
 const LogInPage = lazy(() => import('./pages/LogInPage/LogInPage.page'));
 const PublisherProfilePage = lazy(() => import('./pages/PublisherProfilePage/PublisherProfilePage.page'));
+const ViewerProfilePage = lazy(() => import('./pages/ViewerProfilePage/ViewerProfilePage.page'));
 const CreatePostPage = lazy(() => import('./pages/CreatePostPage/CreatePostPage.page'));
 
 function App() {
@@ -34,6 +35,11 @@ function App() {
         <Route path="/publisher-profile-page">
           <Suspense fallback={<div>Loading...</div>}>
             <PublisherProfilePage />
+          </Suspense>
+        </Route>
+        <Route path="/viewer-profile-page">
+          <Suspense fallback={<div>Loading...</div>}>
+            <ViewerProfilePage />
           </Suspense>
         </Route>
         <Route path="/create-post">
