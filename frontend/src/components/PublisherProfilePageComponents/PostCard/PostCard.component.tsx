@@ -34,7 +34,7 @@ const PostCard = ({ post }: { post: PostInterface }) => {
             );
             setImageLocation("data:;base64," + base64);
         })()
-    }, []);
+    }, [post.id]);
 
     const deletePost = async (id: number) => {
         if (window.confirm('Do you want to delete this post?')) {

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-// const path = require('path');
+const path = require('path');
 const { dbClient } = require('../db/connection');
 
 router.get('/', async(req, res) => {
@@ -17,8 +17,7 @@ router.get('/', async(req, res) => {
 
         const avatarURL = documentLocation.rows[0].document_location;
 
-        // res.sendFile(avatarURL, { root: path.join(__dirname, '..') });
-        res.send(avatarURL);
+        res.sendFile(avatarURL, { root: path.join(__dirname, '..') });
     } catch (err) {
         console.log(err);
     }
