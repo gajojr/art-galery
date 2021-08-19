@@ -10,7 +10,7 @@ const PostsList = () => {
 
     useEffect(() => {
         (async () => {
-            const response = await axios.get('/posts', {
+            const response = await axios.get('/user-posts', {
                 params: {
                     username: sessionStorage.getItem('username')
                 }

@@ -15,6 +15,7 @@ const registerPage = require('./routes/registerUser');
 const loginPage = require('./routes/loginUser');
 const getAvatar = require('./routes/getAvatar');
 const userPosts = require('./routes/userPosts');
+const posts = require('./routes/posts');
 const createPost = require('./routes/createPost');
 
 app.use(bodyParser.urlencoded({
@@ -27,10 +28,11 @@ app.use(helmet());
 // routes that generate jwt auth token
 app.use('/register', upload.single('avatar'), registerPage);
 app.use('/log-in', loginPage);
+app.use('/posts', posts);
 
 // routes that need auth token
 app.use('/get-avatar', verifyJWT, getAvatar);
 app.use('/create-post', verifyJWT, createPost);
-app.use('/posts', userPosts);
+app.use('/user-posts', userPosts);
 
 app.listen(PORT);
