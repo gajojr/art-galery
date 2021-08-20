@@ -1,27 +1,29 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getPosts } from '../../../redux/actions/posts';
 
 import PostCard from '../PostCard/PostCard.component';
 
 import { PostInterface } from '../PostInteface';
 
 const PostList = () => {
-    const [posts, setPosts] = useState<PostInterface[]>([]);
+    const dispatch = useDispatch();
+    const posts = useSelector((state: any) => state.posts.posts);
+    const loading = useSelector((state: any) => state.posts.loading);
+    const error = useSelector((state: any) => state.posts.error);
 
     useEffect(() => {
-        (async () => {
-            const response = await axios.get('/posts');
-            console.log(response.data);
-
-            setPosts(response.data);
-        })();
-    }, []);
+        dispatch(getPosts());
+    }, [dispatch]);
 
     return (
         <section>
-            {posts && posts.map(post => (
+            {loading && <p>Loading...</p>}
+            {posts && posts.map((post: PostInterface) => (
                 <PostCard key={post.id} post={post} />
             ))}
+            {posts.length === 0 && !loading && <p>No users available</p>}
+            {error && !loading && <p>{error}</p>}
         </section>
     )
 }
