@@ -2,6 +2,8 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 import * as types from '../types';
 
+import { PostInterface } from '../../components/ViewerProfilePageComponents/PostInteface';
+
 async function getApi() {
     try {
         const response = await axios.get('/posts');
@@ -11,9 +13,9 @@ async function getApi() {
     }
 }
 
-function* fetchPosts(action: any) {
+function* fetchPosts() {
     try {
-        const posts: Promise<any> = yield call(getApi);
+        const posts: Promise<PostInterface> = yield call(getApi);
         yield put({ type: types.GET_POSTS_SUCCESS, posts });
     } catch (err: any) {
         yield put({ type: types.GET_POSTS_FAILED, message: err.message });

@@ -5,12 +5,13 @@ import { getPosts } from '../../../redux/actions/posts';
 import PostCard from '../PostCard/PostCard.component';
 
 import { PostInterface } from '../PostInteface';
+import PostDispatcherInterface from './PostDispatcherInterface';
 
 const PostList = () => {
     const dispatch = useDispatch();
-    const posts = useSelector((state: any) => state.posts.posts);
-    const loading = useSelector((state: any) => state.posts.loading);
-    const error = useSelector((state: any) => state.posts.error);
+    const posts = useSelector(({ posts }: { posts: PostDispatcherInterface }) => posts.posts);
+    const loading = useSelector(({ posts }: { posts: PostDispatcherInterface }) => posts.loading);
+    const error = useSelector(({ posts }: { posts: PostDispatcherInterface }) => posts.error);
 
     useEffect(() => {
         dispatch(getPosts());
