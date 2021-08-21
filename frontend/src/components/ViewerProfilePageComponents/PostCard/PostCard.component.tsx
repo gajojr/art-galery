@@ -4,7 +4,7 @@ import { getImage } from '../../../redux/actions/images';
 import { PostCard, PostInfo } from './PostCard.style';
 
 import { PostInterface } from '../PostInteface';
-import ImageDispatcherInterface from './ImageDispatcherInterface';
+import ImageDispatcherInterface from '../ImageDispatcherInterface';
 
 const PostCardComponent = ({ post }: { post: PostInterface }) => {
     const dispatch = useDispatch();

@@ -1,11 +1,17 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Image, message } from 'antd';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getProfileImage } from '../../../redux/actions/profileImages';
+import { Image } from 'antd';
 
 import { ProfileCard, ProfileInfo, Username, StyledButton } from './ProfileData.style';
 
+import ImageDispatcherInterface from '../ImageDispatcherInterface';
+
 const ProfileData = () => {
-    const [avatarURL, setAvatarURL] = useState<string>('');
+    const dispatch = useDispatch();
+    const imageLocation = useSelector(({ profileImages }: { profileImages: ImageDispatcherInterface }) => profileImages.imageUrl);
+    const loading = useSelector(({ profileImages }: { profileImages: ImageDispatcherInterface }) => profileImages.loading);
+    const error = useSelector(({ profileImages }: { profileImages: ImageDispatcherInterface }) => profileImages.error);
 
     useEffect(() => {
         if (!sessionStorage.getItem('username')) {
@@ -13,36 +19,8 @@ const ProfileData = () => {
             window.location.href = '/';
         }
 
-        axios
-            .get(
-                `/get-avatar`,
-                {
-                    headers: {
-                        'x-access-token': sessionStorage.getItem('token')
-                    },
-                    params: {
-                        username: sessionStorage.getItem('username')
-                    },
-                    responseType: 'arraybuffer'
-                }
-            )
-            .then(response => {
-                if (response.headers['content-type'] === 'application/json; charset=utf-8') {
-                    message.error('You are not authenticated');
-                    sessionStorage.clear();
-                    window.location.href = '/';
-                    return;
-                }
-                const base64 = btoa(
-                    new Uint8Array(response.data).reduce(
-                        (data, byte) => data + String.fromCharCode(byte),
-                        '',
-                    ),
-                );
-                setAvatarURL("data:;base64," + base64);
-            })
-            .catch(err => console.log(err));
-    }, []);
+        dispatch(getProfileImage());
+    }, [dispatch]);
 
     const logOff = () => {
         if (window.confirm('do you want to log off?')) {
@@ -53,11 +31,15 @@ const ProfileData = () => {
 
     return (
         <ProfileCard>
-            <ProfileInfo>
-                <Username>{`${sessionStorage.getItem('username')}`}</Username>
-                <Image src={avatarURL} width={100} height={100} style={{ borderRadius: '50%', border: '1px solid black' }} alt="avatar" />
-            </ProfileInfo>
-            <StyledButton onClick={logOff}>log off</StyledButton>
+            {loading && <p>Loading...</p>}
+            {imageLocation && <>
+                <ProfileInfo>
+                    <Username>{`${sessionStorage.getItem('username')}`}</Username>
+                    <Image src={imageLocation} width={100} height={100} style={{ borderRadius: '50%', border: '1px solid black' }} alt="avatar" />
+                </ProfileInfo>
+                <StyledButton onClick={logOff}>log off</StyledButton>
+            </>}
+            {error && !loading && <p>{error}</p>}
         </ProfileCard>
     )
 }
