@@ -1,47 +1,34 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getImage } from '../../../redux/actions/images';
 import { PostCard, PostInfo } from './PostCard.style';
 
-import axios from 'axios';
-import { message } from 'antd';
-
 import { PostInterface } from '../PostInteface';
+import ImageDispatcherInterface from './ImageDispatcherInterface';
 
 const PostCardComponent = ({ post }: { post: PostInterface }) => {
-    const [imageLocation, setImageLocation] = useState<string>('');
+    const dispatch = useDispatch();
+    const imageLocation = useSelector(({ images }: { images: ImageDispatcherInterface }) => images.imageUrl);
+    const loading = useSelector(({ images }: { images: ImageDispatcherInterface }) => images.loading);
+    const error = useSelector(({ images }: { images: ImageDispatcherInterface }) => images.error);
 
     useEffect(() => {
-        (async () => {
-            const response = await axios.get(`/user-posts/${post.id}`,
-                {
-                    responseType: 'arraybuffer'
-                }
-            );
-
-            console.log(response);
-            if (response.data.message) {
-                message.error(response.data.message);
-                return;
-            }
-
-            const base64 = btoa(
-                new Uint8Array(response.data).reduce(
-                    (data, byte) => data + String.fromCharCode(byte),
-                    '',
-                ),
-            );
-            setImageLocation("data:;base64," + base64);
-        })();
-    }, [post.id]);
+        dispatch(getImage(post.id));
+    }, [dispatch, post.id]);
 
     return (
         <PostCard>
-            <PostInfo>
-                <p>Category: {post.category}</p>
-                <p>Uploaded: {post.date_of_making}</p>
-                <p>Description: {post.description}</p>
-                <p>Likes: {post.num_of_likes || 0}</p>
-            </PostInfo>
-            <img src={imageLocation} alt="post" />
+            {loading && <p>Loading...</p>}
+            {post && <>
+                <PostInfo>
+                    <p>Category: {post.category}</p>
+                    <p>Uploaded: {post.date_of_making}</p>
+                    <p>Description: {post.description}</p>
+                    <p>Likes: {post.num_of_likes || 0}</p>
+                </PostInfo>
+                <img src={imageLocation} alt="post" />
+            </>}
+            {error && !loading && <p>{error}</p>}
         </PostCard>
     )
 }

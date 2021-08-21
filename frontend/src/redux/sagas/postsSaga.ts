@@ -23,8 +23,8 @@ function* fetchPosts() {
     }
 }
 
-function* userSaga() {
+function* postsSaga() {
     yield takeEvery(types.GET_POSTS_REQUESTED, fetchPosts);
 }
 
-export default userSaga;
+export default postsSaga;

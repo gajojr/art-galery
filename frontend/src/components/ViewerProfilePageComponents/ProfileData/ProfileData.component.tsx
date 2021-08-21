@@ -27,7 +27,6 @@ const ProfileData = () => {
                 }
             )
             .then(response => {
-                console.log(response.data);
                 if (response.headers['content-type'] === 'application/json; charset=utf-8') {
                     message.error('You are not authenticated');
                     sessionStorage.clear();
