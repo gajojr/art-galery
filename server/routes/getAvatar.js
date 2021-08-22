@@ -17,7 +17,7 @@ router.get('/', async(req, res) => {
 
         const avatarURL = documentLocation.rows[0].document_location;
 
-        res.sendFile(avatarURL, { root: path.join(__dirname, '..') });
+        res.send(avatarURL);
     } catch (err) {
         console.log(err);
     }

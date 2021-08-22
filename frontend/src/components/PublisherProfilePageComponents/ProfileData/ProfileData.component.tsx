@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Image, message } from 'antd';
+import { Image } from 'antd';
 
 import { ProfileCard, ProfileInfo, Username, StyledButton } from './ProfileData.style';
 
@@ -13,36 +13,23 @@ const ProfileData = () => {
             window.location.href = '/';
         }
 
-        axios
-            .get(
-                `/get-avatar`,
-                {
-                    headers: {
-                        'x-access-token': sessionStorage.getItem('token')
-                    },
-                    params: {
-                        username: sessionStorage.getItem('username')
-                    },
-                    responseType: 'arraybuffer'
-                }
-            )
-            .then(response => {
-                console.log(response.data);
-                if (response.headers['content-type'] === 'application/json; charset=utf-8') {
-                    message.error('You are not authenticated');
-                    sessionStorage.clear();
-                    window.location.href = '/';
-                    return;
-                }
-                const base64 = btoa(
-                    new Uint8Array(response.data).reduce(
-                        (data, byte) => data + String.fromCharCode(byte),
-                        '',
-                    ),
-                );
-                setAvatarURL("data:;base64," + base64);
-            })
-            .catch(err => console.log(err));
+        (async () => {
+            const response = await axios
+                .get(
+                    `/get-avatar`,
+                    {
+                        headers: {
+                            'x-access-token': sessionStorage.getItem('token')
+                        },
+                        params: {
+                            username: sessionStorage.getItem('username')
+                        }
+                    }
+                )
+
+            console.log(response.data);
+            setAvatarURL(response.data);
+        })();
     }, []);
 
     const logOff = () => {

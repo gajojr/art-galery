@@ -18,6 +18,8 @@ const userPosts = require('./routes/userPosts');
 const posts = require('./routes/posts');
 const createPost = require('./routes/createPost');
 
+app.use(express.static('public'));
+app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({
     extended: true
 }));

@@ -1,17 +1,12 @@
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { getProfileImage } from '../../../redux/actions/profileImages';
+import { useState, useEffect } from 'react';
 import { Image } from 'antd';
 
 import { ProfileCard, ProfileInfo, Username, StyledButton } from './ProfileData.style';
 
-import ImageDispatcherInterface from '../ImageDispatcherInterface';
+import axios from 'axios';
 
 const ProfileData = () => {
-    const dispatch = useDispatch();
-    const imageLocation = useSelector(({ profileImages }: { profileImages: ImageDispatcherInterface }) => profileImages.imageUrl);
-    const loading = useSelector(({ profileImages }: { profileImages: ImageDispatcherInterface }) => profileImages.loading);
-    const error = useSelector(({ profileImages }: { profileImages: ImageDispatcherInterface }) => profileImages.error);
+    const [imageLocation, setImageLocation] = useState('');
 
     useEffect(() => {
         if (!sessionStorage.getItem('username')) {
@@ -19,8 +14,23 @@ const ProfileData = () => {
             window.location.href = '/';
         }
 
-        dispatch(getProfileImage());
-    }, [dispatch]);
+        (async () => {
+            const response = await axios
+                .get(
+                    `/get-avatar`,
+                    {
+                        headers: {
+                            'x-access-token': sessionStorage.getItem('token')
+                        },
+                        params: {
+                            username: sessionStorage.getItem('username')
+                        }
+                    }
+                )
+
+            setImageLocation(response.data);
+        })();
+    }, []);
 
     const logOff = () => {
         if (window.confirm('do you want to log off?')) {
@@ -31,15 +41,11 @@ const ProfileData = () => {
 
     return (
         <ProfileCard>
-            {loading && <p>Loading...</p>}
-            {imageLocation && <>
-                <ProfileInfo>
-                    <Username>{`${sessionStorage.getItem('username')}`}</Username>
-                    <Image src={imageLocation} width={100} height={100} style={{ borderRadius: '50%', border: '1px solid black' }} alt="avatar" />
-                </ProfileInfo>
-                <StyledButton onClick={logOff}>log off</StyledButton>
-            </>}
-            {error && !loading && <p>{error}</p>}
+            <ProfileInfo>
+                <Username>{`${sessionStorage.getItem('username')}`}</Username>
+                <Image src={imageLocation} width={100} height={100} style={{ borderRadius: '50%', border: '1px solid black' }} alt="avatar" />
+            </ProfileInfo>
+            <StyledButton onClick={logOff}>log off</StyledButton>
         </ProfileCard>
     )
 }

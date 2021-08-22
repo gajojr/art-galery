@@ -14,31 +14,15 @@ const PostCard = ({ post }: { post: PostInterface }) => {
 
     useEffect(() => {
         (async () => {
-            const response = await axios.get(`/posts/${post.id}`,
-                {
-                    responseType: 'arraybuffer'
-                }
-            );
+            const response = await axios.get(`/user-posts/${post.id}`);
 
-            console.log(response);
-            if (response.data.message) {
-                message.error(response.data.message);
-                return;
-            }
-
-            const base64 = btoa(
-                new Uint8Array(response.data).reduce(
-                    (data, byte) => data + String.fromCharCode(byte),
-                    '',
-                ),
-            );
-            setImageLocation("data:;base64," + base64);
+            setImageLocation(response.data);
         })()
     }, [post.id]);
 
     const deletePost = async (id: number) => {
         if (window.confirm('Do you want to delete this post?')) {
-            const response = await axios.delete(`/posts/${id}`, {
+            const response = await axios.delete(`/user-posts/${id}`, {
                 headers: {
                     'x-access-token': sessionStorage.getItem('token')
                 }
