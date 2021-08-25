@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const multer = require('multer');
@@ -18,7 +17,6 @@ const userPosts = require('./routes/userPosts');
 const posts = require('./routes/posts');
 const createPost = require('./routes/createPost');
 
-app.use(express.static('public'));
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({
     extended: true

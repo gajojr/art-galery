@@ -23,7 +23,7 @@ const PostList = () => {
             {posts.length && posts.map((post: PostInterface) => (
                 <PostCard key={post.id} post={post} />
             ))}
-            {posts.length === 0 && !loading && <p>No users available</p>}
+            {posts.length === 0 && !loading && <p>No posts available</p>}
             {error && !loading && <p>{error}</p>}
         </section>
     )
