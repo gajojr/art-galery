@@ -11,7 +11,7 @@ export class CreatePostDto {
   category: string;
 
   @IsNotEmpty()
-  date_of_making: Date;
+  date_of_making: string;
 
   @IsNotEmpty()
   document_location: string;
