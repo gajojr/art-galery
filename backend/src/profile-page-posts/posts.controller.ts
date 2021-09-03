@@ -1,15 +1,6 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
-import { GetPostsFilterDto } from './dto/get-posts-filter.dto';
 import { Post as PostEntity } from './post.entity';
 
 @Controller('posts')
@@ -17,8 +8,8 @@ export class PostsController {
   constructor(private postsService: PostsService) {}
 
   @Get()
-  getTasks(@Query() filterDto: GetPostsFilterDto): Promise<PostEntity[]> {
-    return this.postsService.getPosts(filterDto);
+  getPosts(): Promise<PostEntity[]> {
+    return this.postsService.getPosts();
   }
 
   @Get('/:id')

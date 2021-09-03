@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
-import { PostsModule } from './posts/posts.module';
+import { PostsModule } from './profile-page-posts/posts.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     PostsModule,
@@ -14,6 +15,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    AuthModule,
   ],
 })
 export class AppModule {}
