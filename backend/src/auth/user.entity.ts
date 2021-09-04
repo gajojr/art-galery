@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Post } from 'src/profile-page-posts/post.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -31,4 +32,10 @@ export class User {
 
   @Column()
   document_location: string;
+
+  @OneToMany((_type) => Post, (post) => post.user, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  posts: Post[];
 }

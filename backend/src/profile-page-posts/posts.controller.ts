@@ -11,6 +11,8 @@ import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { Post as PostEntity } from './post.entity';
 import { AuthGuard } from '@nestjs/passport';
+import { User } from 'src/auth/user.entity';
+import { GetUser } from 'src/auth/get-user.decorator';
 
 @Controller('posts')
 @UseGuards(AuthGuard())
@@ -18,8 +20,8 @@ export class PostsController {
   constructor(private postsService: PostsService) {}
 
   @Get()
-  getPosts(): Promise<PostEntity[]> {
-    return this.postsService.getPosts();
+  getPosts(@GetUser() user: User): Promise<PostEntity[]> {
+    return this.postsService.getPosts(user);
   }
 
   @Get('/:id')
@@ -28,8 +30,11 @@ export class PostsController {
   }
 
   @Post()
-  createPost(@Body() createPostDto: CreatePostDto): Promise<PostEntity> {
-    return this.postsService.createPost(createPostDto);
+  createPost(
+    @Body() createPostDto: CreatePostDto,
+    @GetUser() user: User,
+  ): Promise<PostEntity> {
+    return this.postsService.createPost(createPostDto, user);
   }
 
   @Delete('/:id')

@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
+import { User } from 'src/auth/user.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Post {
@@ -14,9 +16,13 @@ export class Post {
   @Column()
   category: string;
 
-  @Column()
-  date_of_making: string;
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  date_of_making: Date;
 
   @Column()
   document_location: string;
+
+  @ManyToOne((_type) => User, (user) => user.posts, { eager: false })
+  @Exclude({ toPlainOnly: true })
+  user: User;
 }
