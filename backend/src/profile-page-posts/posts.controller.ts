@@ -25,8 +25,11 @@ export class PostsController {
   }
 
   @Get('/:id')
-  async getPostById(@Param('id') id: string): Promise<PostEntity> {
-    return this.postsService.getPostById(id);
+  async getPostById(
+    @Param('id') id: string,
+    @GetUser() user: User,
+  ): Promise<PostEntity> {
+    return this.postsService.getPostById(id, user);
   }
 
   @Post()
@@ -38,7 +41,7 @@ export class PostsController {
   }
 
   @Delete('/:id')
-  deletePost(@Param('id') id: string): Promise<void> {
-    return this.postsService.deletePost(id);
+  deletePost(@Param('id') id: string, @GetUser() user: User): Promise<void> {
+    return this.postsService.deletePost(id, user);
   }
 }

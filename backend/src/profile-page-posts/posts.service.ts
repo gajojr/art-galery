@@ -16,8 +16,8 @@ export class PostsService {
     return this.postsRepository.getPosts(user);
   }
 
-  async getPostById(id: string): Promise<Post> {
-    const found = await this.postsRepository.findOne(id);
+  async getPostById(id: string, user: User): Promise<Post> {
+    const found = await this.postsRepository.findOne({ where: { id, user } });
 
     if (!found) {
       throw new NotFoundException(`Post with id ${id} not found`);
@@ -30,8 +30,8 @@ export class PostsService {
     return this.postsRepository.createPost(createPostDto, user);
   }
 
-  async deletePost(id: string): Promise<void> {
-    const result = await this.postsRepository.delete(id);
+  async deletePost(id: string, user: User): Promise<void> {
+    const result = await this.postsRepository.delete({ id, user });
 
     if (result.affected === 0) {
       throw new NotFoundException(`Post with id ${id} not found`);
