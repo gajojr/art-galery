@@ -11,8 +11,8 @@ import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { Post as PostEntity } from './post.entity';
 import { AuthGuard } from '@nestjs/passport';
-import { User } from 'src/auth/user.entity';
-import { GetUser } from 'src/auth/get-user.decorator';
+import { User } from '../auth/user.entity';
+import { GetUser } from '../auth/get-user.decorator';
 
 @Controller('posts')
 @UseGuards(AuthGuard())
