@@ -4,6 +4,7 @@ import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { UserDataForFrontendDto } from './dto/user-data-for-frontend.dto';
+import removeImage from '../utils/deleteFile';
 
 @EntityRepository(User)
 export class UsersRepository extends Repository<User> {
@@ -31,7 +32,8 @@ export class UsersRepository extends Repository<User> {
         appRole: user.appRole,
       };
     } catch (err) {
-      console.log(err);
+      // delete avatar since user signup failed
+      removeImage(filePath);
       // err.code is a string
       if (err.code === '23505') {
         // duplicate username or email occurred
