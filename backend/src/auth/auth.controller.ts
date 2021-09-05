@@ -22,7 +22,6 @@ export class AuthController {
     @Body() authCredentialsDto: AuthCredentialsDto,
     @UploadedFile() file: Express.Multer.File,
   ): Promise<UserDataForFrontendDto> {
-    console.log(file);
     return this.authService.signUp(authCredentialsDto, file.path);
   }
 

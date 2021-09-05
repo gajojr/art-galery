@@ -5,12 +5,14 @@ import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { UserDataForFrontendDto } from './dto/user-data-for-frontend.dto';
 import removeImage from '../utils/deleteFile';
+import { JwtPayload } from './jwt-payload.interface';
 
 @EntityRepository(User)
 export class UsersRepository extends Repository<User> {
   async createUser(
     authCredentialsDto: AuthCredentialsDto,
     filePath: string,
+    accessToken: string,
   ): Promise<UserDataForFrontendDto> {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(authCredentialsDto.password, salt);
@@ -24,14 +26,16 @@ export class UsersRepository extends Repository<User> {
 
     try {
       await this.save(user);
+
       return {
         username: user.username,
         administrationRole: user.administrationRole,
         auth: true,
-        token: 'temp',
+        token: accessToken,
         appRole: user.appRole,
       };
     } catch (err) {
+      console.log(err);
       // delete avatar since user signup failed
       removeImage(filePath);
       // err.code is a string
