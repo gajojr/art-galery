@@ -62,27 +62,22 @@ const Form = () => {
 
     axios.post('/auth/signup', formData)
       .then(res => {
-        if (!res.data.error) {
-          message.success('registered successfully');
-          sessionStorage.setItem('username', res.data.username);
-          sessionStorage.setItem('role', res.data.role);
-          sessionStorage.setItem('auth', res.data.auth);
-          sessionStorage.setItem('token', res.data.token);
-          sessionStorage.setItem('appRole', res.data.appRole);
+        console.log(res);
+        message.success('registered successfully');
+        sessionStorage.setItem('username', res.data.username);
+        sessionStorage.setItem('role', res.data.role);
+        sessionStorage.setItem('auth', res.data.auth);
+        sessionStorage.setItem('token', res.data.token);
+        sessionStorage.setItem('appRole', res.data.appRole);
 
-          // if (res.data.appRole === 'viewer/critic') {
-          //   window.location.href = '/viewer-profile-page';
-          // } else {
-          //   window.location.href = '/publisher-profile-page';
-          // }
-        } else {
-          console.log(res.data.error)
-          message.error(res.data.error);
-        }
+        // if (res.data.appRole === 'viewer/critic') {
+        //   window.location.href = '/viewer-profile-page';
+        // } else {
+        //   window.location.href = '/publisher-profile-page';
+        // }
       })
       .catch(err => {
-        console.log(err)
-        message.error('register failed');
+        message.error(`register failed, ${err.response.data.message}`);
       });
   }
 
