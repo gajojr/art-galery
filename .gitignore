@@ -2,5 +2,4 @@ node_modules
 .env
 .env.stage.dev
 .env.stage.prod
-uploads
-backend/upload
+backend/uploads

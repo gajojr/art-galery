@@ -25,7 +25,7 @@ import { MulterModule } from '@nestjs/platform-express';
     }),
     TypeOrmModule.forFeature([UsersRepository]),
     MulterModule.register({
-      dest: './upload',
+      dest: './uploads/profile_pictures',
     }),
   ],
   providers: [AuthService, JwtStrategy],
