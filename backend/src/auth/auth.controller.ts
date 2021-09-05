@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { SignInCredentialsDto } from './dto/sign-in-credentials.dto';
 import { Express } from 'express';
-import { User } from './user.entity';
+import { UserDataForFrontendDto } from './dto/user-data-for-frontend.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -21,9 +21,8 @@ export class AuthController {
   signUp(
     @Body() authCredentialsDto: AuthCredentialsDto,
     @UploadedFile() file: Express.Multer.File,
-  ): Promise<User> {
-    console.log(file);
-    return this.authService.signUp(authCredentialsDto);
+  ): Promise<UserDataForFrontendDto> {
+    return this.authService.signUp(authCredentialsDto, file.path);
   }
 
   @Post('/signin')
