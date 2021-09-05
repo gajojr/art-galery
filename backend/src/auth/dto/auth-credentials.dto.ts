@@ -18,7 +18,4 @@ export class AuthCredentialsDto {
 
   @IsString()
   email: string;
-
-  @IsString()
-  document_location: string;
 }

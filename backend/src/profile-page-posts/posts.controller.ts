@@ -5,7 +5,9 @@ import {
   Get,
   Param,
   Post,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -13,6 +15,7 @@ import { Post as PostEntity } from './post.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from '../auth/user.entity';
 import { GetUser } from '../auth/get-user.decorator';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('posts')
 @UseGuards(AuthGuard())
@@ -33,10 +36,13 @@ export class PostsController {
   }
 
   @Post()
+  @UseInterceptors(FileInterceptor('imageToPost'))
   createPost(
     @Body() createPostDto: CreatePostDto,
     @GetUser() user: User,
+    @UploadedFile() file: Express.Multer.File,
   ): Promise<PostEntity> {
+    console.log(file);
     return this.postsService.createPost(createPostDto, user);
   }
 

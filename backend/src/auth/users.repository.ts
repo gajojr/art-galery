@@ -6,7 +6,7 @@ import * as bcrypt from 'bcrypt';
 
 @EntityRepository(User)
 export class UsersRepository extends Repository<User> {
-  async createUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
+  async createUser(authCredentialsDto: AuthCredentialsDto): Promise<User> {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(authCredentialsDto.password, salt);
 
@@ -14,11 +14,14 @@ export class UsersRepository extends Repository<User> {
       ...authCredentialsDto,
       password: hashedPassword,
       administration_role: 'user',
+      document_location: 'sdfsd/dsfs/fs',
     });
 
     try {
       await this.save(user);
+      return user;
     } catch (err) {
+      console.log(err);
       // err.code is a string
       if (err.code === '23505') {
         // duplicate username or email occurred
