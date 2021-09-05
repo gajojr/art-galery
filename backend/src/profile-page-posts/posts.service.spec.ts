@@ -11,14 +11,14 @@ const mockPostsRepository = () => ({
 const mockUser = {
   username: 'gojko12',
   password: 'idegas12',
-  name: 'Radojica',
+  firstname: 'Radojica',
   lastname: 'Petrovic',
   id: 'adsfsd-asgfsda-gsda',
-  date_of_making: new Date(),
-  app_role: 'viewer/critic',
+  dateOfMaking: new Date(),
+  appRole: 'viewer/critic',
   email: 'gojko@gmail.com',
-  administration_role: 'user',
-  document_location: 'sdagfasd/sfads/sdfa',
+  administrationRole: 'user',
+  documentLocation: 'sdagfasd/sfads/sdfa',
   posts: [],
 };
 

@@ -2,7 +2,7 @@ import { IsString } from 'class-validator';
 
 export class AuthCredentialsDto {
   @IsString()
-  name: string;
+  firstname: string;
 
   @IsString()
   lastname: string;
@@ -14,7 +14,7 @@ export class AuthCredentialsDto {
   username: string;
 
   @IsString()
-  app_role: string;
+  appRole: string;
 
   @IsString()
   email: string;

@@ -17,18 +17,18 @@ export class UsersRepository extends Repository<User> {
     const user = this.create({
       ...authCredentialsDto,
       password: hashedPassword,
-      administration_role: 'user',
-      document_location: filePath,
+      administrationRole: 'user',
+      documentLocation: filePath,
     });
 
     try {
       await this.save(user);
       return {
         username: user.username,
-        administrationRole: user.administration_role,
+        administrationRole: user.administrationRole,
         auth: true,
         token: 'temp',
-        appRole: user.app_role,
+        appRole: user.appRole,
       };
     } catch (err) {
       console.log(err);

@@ -3,16 +3,18 @@ import { useState } from 'react';
 import axios from 'axios';
 
 import { FormElement, FormCaption, StyledButton, UploadButton } from './Form.style';
-import { Input, Upload, message, Radio } from 'antd';
+import { Input, Upload, message, Radio, RadioChangeEvent } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface';
+import { UploadRequestOption } from 'rc-upload/lib/interface';
 
-// import { UserSchema } from './UserSchema';
+import { UserSchemaWithAvatar } from './UserSchema';
 
 const Form = () => {
   const [appRole, setAppRole] = useState('viewer/critic');
   const [files, setFiles] = useState<File[]>([]);
 
-  const onChange = (e: any) => {
+  const onChange = (e: RadioChangeEvent) => {
     console.log('radio checked', e.target.value);
     setAppRole(e.target.value);
   };
@@ -21,28 +23,29 @@ const Form = () => {
     beforeUpload: (file: File) => {
       setFiles([file]);
     },
-    onRemove: (file: any) => {
+    onRemove: (file: UploadFile) => {
       setFiles([]);
     },
-    onChange: (info: any) => {
+    onChange: (info: UploadChangeParam<UploadFile<any>>) => {
       if (info.file.status === 'done') {
         message.success('file uploaded');
       }
     },
-    customRequest: (options: any) => {
+    customRequest: (options: UploadRequestOption<any>) => {
       setTimeout(() => {
-        options.onSuccess('ok');
+        (options as any).onSuccess('ok', new XMLHttpRequest());
       }, 0);
     }
   };
 
-  // change values type to UserSchema
-  const onFinish = (values: any) => {
+  const onFinish = (values: UserSchemaWithAvatar) => {
     console.log('values', values);
 
     const formData = new FormData();
     for (const name in values) {
-      formData.append(name, values[name]); // there should be values.avatar which is a File object
+      if (name !== 'confirmPassword') {
+        formData.append(name, values[name]); // there should be values.avatar which is a File object
+      }
     }
 
     if (!files.length) {
@@ -59,24 +62,23 @@ const Form = () => {
 
     axios.post('/auth/signup', formData)
       .then(res => {
-        console.log(res)
-        // if (!res.data.error) {
-        //   message.success('registered successfully');
-        //   sessionStorage.setItem('username', res.data.username);
-        //   sessionStorage.setItem('role', res.data.role);
-        //   sessionStorage.setItem('auth', res.data.auth);
-        //   sessionStorage.setItem('token', res.data.token);
-        //   sessionStorage.setItem('appRole', res.data.appRole);
+        if (!res.data.error) {
+          message.success('registered successfully');
+          sessionStorage.setItem('username', res.data.username);
+          sessionStorage.setItem('role', res.data.role);
+          sessionStorage.setItem('auth', res.data.auth);
+          sessionStorage.setItem('token', res.data.token);
+          sessionStorage.setItem('appRole', res.data.appRole);
 
-        //   if (res.data.appRole === 'viewer/critic') {
-        //     window.location.href = '/viewer-profile-page';
-        //   } else {
-        //     window.location.href = '/publisher-profile-page';
-        //   }
-        // } else {
-        //   console.log(res.data.error)
-        //   message.error(res.data.error);
-        // }
+          // if (res.data.appRole === 'viewer/critic') {
+          //   window.location.href = '/viewer-profile-page';
+          // } else {
+          //   window.location.href = '/publisher-profile-page';
+          // }
+        } else {
+          console.log(res.data.error)
+          message.error(res.data.error);
+        }
       })
       .catch(err => {
         console.log(err)
@@ -90,7 +92,7 @@ const Form = () => {
 
       <FormElement.Item
         label="First name"
-        name="firstName"
+        name="firstname"
         rules={[
           {
             required: true,
@@ -103,7 +105,7 @@ const Form = () => {
 
       <FormElement.Item
         label="Last name"
-        name="lastName"
+        name="lastname"
         rules={[
           {
             required: true,

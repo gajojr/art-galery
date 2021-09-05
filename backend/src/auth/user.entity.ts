@@ -7,7 +7,7 @@ export class User {
   id: string;
 
   @Column()
-  name: string;
+  firstname: string;
 
   @Column()
   lastname: string;
@@ -19,19 +19,19 @@ export class User {
   username: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  date_of_making: Date;
+  dateOfMaking: Date;
 
   @Column()
-  app_role: string;
+  appRole: string;
 
   @Column({ unique: true })
   email: string;
 
   @Column()
-  administration_role: string;
+  administrationRole: string;
 
   @Column()
-  document_location: string;
+  documentLocation: string;
 
   @OneToMany((_type) => Post, (post) => post.user, {
     eager: true,
