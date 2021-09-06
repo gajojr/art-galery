@@ -43,4 +43,8 @@ export class AuthService {
       throw new UnauthorizedException('Please check your login credentials');
     }
   }
+
+  getAvatar(username: string): Promise<string> {
+    return this.usersRepository.getAvatarUrl(username);
+  }
 }

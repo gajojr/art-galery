@@ -65,16 +65,16 @@ const Form = () => {
         console.log(res);
         message.success('registered successfully');
         sessionStorage.setItem('username', res.data.username);
-        sessionStorage.setItem('role', res.data.role);
+        sessionStorage.setItem('administrationRole', res.data.administrationRole);
         sessionStorage.setItem('auth', res.data.auth);
         sessionStorage.setItem('token', res.data.token);
         sessionStorage.setItem('appRole', res.data.appRole);
 
-        // if (res.data.appRole === 'viewer/critic') {
-        //   window.location.href = '/viewer-profile-page';
-        // } else {
-        //   window.location.href = '/publisher-profile-page';
-        // }
+        if (res.data.appRole === 'viewer/critic') {
+          window.location.href = '/viewer-profile-page';
+        } else {
+          window.location.href = '/publisher-profile-page';
+        }
       })
       .catch(err => {
         message.error(`register failed, ${err.response.data.message}`);

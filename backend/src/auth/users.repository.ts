@@ -5,7 +5,6 @@ import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { UserDataForFrontendDto } from './dto/user-data-for-frontend.dto';
 import removeImage from '../utils/deleteFile';
-import { JwtPayload } from './jwt-payload.interface';
 
 @EntityRepository(User)
 export class UsersRepository extends Repository<User> {
@@ -52,5 +51,10 @@ export class UsersRepository extends Repository<User> {
         throw new ConflictException(`${duplicateField} already exists`);
       }
     }
+  }
+
+  async getAvatarUrl(username: string): Promise<string> {
+    const user = await this.findOne({ where: { username } });
+    return user.documentLocation;
   }
 }
