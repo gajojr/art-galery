@@ -21,7 +21,7 @@ const ProfileData = () => {
             '/auth/avatar',
             {
               headers: {
-                'x-access-token': sessionStorage.getItem('token')
+                'Authorization': `Bearer ${sessionStorage.getItem('token')}`
               },
               params: {
                 username: sessionStorage.getItem('username')
