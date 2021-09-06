@@ -17,7 +17,7 @@ import { User } from '../auth/user.entity';
 import { GetUser } from '../auth/get-user.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-@Controller('posts')
+@Controller('profile-page-posts')
 @UseGuards(AuthGuard())
 export class PostsController {
   constructor(private postsService: PostsService) {}
@@ -35,7 +35,7 @@ export class PostsController {
     return this.postsService.getPostById(id, user);
   }
 
-  @Post()
+  @Post('/create-post')
   @UseInterceptors(FileInterceptor('imageToPost'))
   createPost(
     @Body() createPostDto: CreatePostDto,

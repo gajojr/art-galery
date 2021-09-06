@@ -7,7 +7,7 @@ const ProfilePage = () => {
   return (
     <ProfilePageContainer>
       <ProfileData />
-      {/* <PostList /> */}
+      <PostList />
     </ProfilePageContainer>
   )
 }
