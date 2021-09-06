@@ -39,11 +39,7 @@ export class AuthController {
 
   @Get('/avatar')
   @UseGuards(AuthGuard('jwt'))
-  getAvatar(
-    @Query('username') username: string,
-    @Headers() headers,
-  ): Promise<string> {
-    console.log(headers);
+  getAvatar(@Query('username') username: string): Promise<string> {
     return this.authService.getAvatar(username);
   }
 }

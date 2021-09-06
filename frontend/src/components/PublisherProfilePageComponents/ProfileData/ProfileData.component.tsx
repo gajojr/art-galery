@@ -29,12 +29,12 @@ const ProfileData = () => {
             }
           )
 
-        console.log(response.data);
         setAvatarURL(response.data);
       } catch (err: any) {
+        // log off, clear storage
         message.error(err.response.data.message);
-        // sessionStorage.clear();
-        // window.location.href = '/';
+        sessionStorage.clear();
+        window.location.href = '/';
       }
     })();
   }, []);
