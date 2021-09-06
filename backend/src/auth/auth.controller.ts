@@ -2,9 +2,9 @@ import {
   Body,
   Controller,
   Get,
-  Param,
   Post,
   Query,
+  Headers,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -33,13 +33,17 @@ export class AuthController {
   @Post('/signin')
   signIn(
     @Body() signInCredentialsDto: SignInCredentialsDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<UserDataForFrontendDto> {
     return this.authService.signIn(signInCredentialsDto);
   }
 
   @Get('/avatar')
-  @UseGuards(AuthGuard())
-  getAvatar(@Query('username') username: string): Promise<string> {
+  @UseGuards(AuthGuard('jwt'))
+  getAvatar(
+    @Query('username') username: string,
+    @Headers() headers,
+  ): Promise<string> {
+    console.log(headers);
     return this.authService.getAvatar(username);
   }
 }

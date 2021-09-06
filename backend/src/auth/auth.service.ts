@@ -31,14 +31,20 @@ export class AuthService {
 
   async signIn(
     signInCredentialsDto: SignInCredentialsDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<UserDataForFrontendDto> {
     const { username, password } = signInCredentialsDto;
     const user = await this.usersRepository.findOne({ username });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const payload: JwtPayload = { username };
       const accessToken: string = this.jwtService.sign(payload);
-      return { accessToken };
+      return {
+        username,
+        administrationRole: user.administrationRole,
+        auth: true,
+        token: accessToken,
+        appRole: user.appRole,
+      };
     } else {
       throw new UnauthorizedException('Please check your login credentials');
     }
