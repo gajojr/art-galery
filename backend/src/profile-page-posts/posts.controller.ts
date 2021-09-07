@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -42,12 +43,15 @@ export class PostsController {
     @GetUser() user: User,
     @UploadedFile() file: Express.Multer.File,
   ): Promise<PostEntity> {
-    console.log(file);
-    return this.postsService.createPost(createPostDto, user);
+    return this.postsService.createPost(createPostDto, user, file.path);
   }
 
   @Delete('/:id')
-  deletePost(@Param('id') id: string, @GetUser() user: User): Promise<void> {
-    return this.postsService.deletePost(id, user);
+  deletePost(
+    @Param('id') id: string,
+    @Query('documentLocation') documentLocation: string,
+    @GetUser() user: User,
+  ): Promise<void> {
+    return this.postsService.deletePost(id, user, documentLocation);
   }
 }

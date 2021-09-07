@@ -14,9 +14,13 @@ const PostCard = ({ post }: { post: PostInterface }) => {
 
   useEffect(() => {
     (async () => {
-      const response = await axios.get(`/profile-page-posts/${post.id}`);
+      const response = await axios.get(`/profile-page-posts/${post.id}`, {
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+        }
+      });
 
-      setImageLocation(response.data);
+      setImageLocation(response.data.documentLocation);
     })()
   }, [post.id]);
 
@@ -25,10 +29,13 @@ const PostCard = ({ post }: { post: PostInterface }) => {
       const response = await axios.delete(`/profile-page-posts/${id}`, {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+        },
+        params: {
+          documentLocation: imageLocation
         }
       });
       console.log(response);
-      if (response.status === 201) {
+      if (response.status === 200) {
         message.success('Post deleted!');
         window.location.reload();
       } else {

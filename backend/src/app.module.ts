@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PostsModule } from './profile-page-posts/posts.module';
+import { ProfilePagePostsModule } from './profile-page-posts/posts.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -16,7 +16,7 @@ import { join } from 'path';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..'),
     }),
-    PostsModule,
+    ProfilePagePostsModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

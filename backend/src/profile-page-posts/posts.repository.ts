@@ -14,8 +14,12 @@ export class PostsRepository extends Repository<Post> {
     return posts;
   }
 
-  async createPost(createPostDto: CreatePostDto, user: User): Promise<Post> {
-    const post = this.create({ ...createPostDto, user });
+  async createPost(
+    createPostDto: CreatePostDto,
+    user: User,
+    documentLocation: string,
+  ): Promise<Post> {
+    const post = this.create({ ...createPostDto, documentLocation, user });
 
     await this.save(post);
 

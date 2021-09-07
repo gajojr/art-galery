@@ -8,19 +8,16 @@ export class Post {
   id: string;
 
   @Column()
-  user_id: string;
-
-  @Column()
   description: string;
 
   @Column()
   category: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  date_of_making: Date;
+  dateOfMaking: Date;
 
   @Column()
-  document_location: string;
+  documentLocation: string;
 
   @ManyToOne((_type) => User, (user) => user.posts, { eager: false })
   @Exclude({ toPlainOnly: true })
